@@ -6,9 +6,7 @@ from .models import *
 def landing_view(request):
     return render(request, 'landing/index.html', {})
 
-
-# login page
-
+# login view
 def login_view(request):
     if request.method == 'POST':
         mobile = request.POST.get('mobile')
@@ -24,7 +22,6 @@ def login_view(request):
     
 
     return render(request, 'dashboard/login.html')
-
 
 # Register View
 def register_view(request):
@@ -50,3 +47,8 @@ def register_view(request):
         return redirect('/login') 
 
     return render(request, 'dashboard/register.html') 
+
+
+# Dashboard View
+def dashboard_view(request):
+    return render(request, 'dashboard/admin.html')
