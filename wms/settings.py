@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -126,3 +127,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'staticfiles')
 ]
+
+JAZZMIN_SETTINGS = {
+    "site_title": "WMS Admin",
+    "site_header": "Waste Management System",
+    "site_brand": "WSM",
+    "welcome_sign": "Admin Login",
+    "copyright": "Waste Management System",
+}
