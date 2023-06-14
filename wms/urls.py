@@ -18,5 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('wms_core.urls'), name='index')
+    path('', include('wms_app.urls'), name='index')
 ]
