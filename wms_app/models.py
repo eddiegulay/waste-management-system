@@ -1,11 +1,13 @@
 from django.db import models
-"""
+from django.contrib.auth.models import User
 
-class User(models.Model):
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-    role = models.CharField(max_length=20)  # Role can be WasteProducer, WasteCollector, FeesCollector
 
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # Role can be WasteProducer, WasteCollector, FeesCollector
+    role = models.CharField(max_length=20)  
+    address = models.CharField(max_length=100)
+    contact_number = models.CharField(max_length=20)
     def __str__(self):
         return self.username
 
@@ -59,6 +61,3 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment by {self.waste_producer.name} to {self.fees_collector.name}"
-
-
-"""
