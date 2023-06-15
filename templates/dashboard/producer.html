@@ -144,7 +144,7 @@
                                 <div class="card-body">
                                     <table class="table">
                                         <thead>
-                                            <tr class="fw-light">
+                                            <tr>
                                                 <td scope="col">Date</td>
                                                 <td scope="col">Amount</td>
                                                 <td scope="col">Phone Number</td>
@@ -152,7 +152,7 @@
                                                 <td scope="col">Payment Method</td>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="fw-light">
                                             
                                             {% if payments %}
                                                 {% for payment in payments %}
@@ -162,7 +162,7 @@
                                                     <td>{{payment.phone_number}}</td>
                                                     <td>
                                                         
-                                                        {% if payment.payment_type is 1 %}
+                                                        {% if payment.payment_type == '1' %}
                                                             Monthly
                                                         {% else %}
                                                             Per Request
@@ -170,11 +170,11 @@
                                                             
                                                     </td>
                                                     <td> 
-                                                        {% if payment.payment_method is 1 %}
+                                                        {% if payment.payment_method == '1' %}
                                                             Tigo Pesa
-                                                        {% elif payment.payment_method is 2 %}
+                                                        {% elif payment.payment_method == '2' %}
                                                             Airtel Money
-                                                        {% elif payment.payment_method is 3 %}
+                                                        {% else %}
                                                             M-pesa
                                                         {% endif %}
                                                     </td>

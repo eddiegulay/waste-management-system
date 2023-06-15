@@ -198,6 +198,10 @@ def producer_dashboard_view(request):
 
 
 def request_pickup_view(request):
+    customer = Customer.objects.get(user = request.user)
+    account = Account.objects.get(user = request.user)
+
+    context = {}
     return render(request, 'dashboard/request.html', {})
 
 
@@ -238,7 +242,7 @@ def make_payment_view(request):
             acc.request_count = counts
         acc.save()
 
-        return redirect('/make_payments')
+        return redirect('/producer_dashboard')
 
 
 
