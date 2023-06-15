@@ -86,8 +86,19 @@ def register_view(request):
 # function to get customers in an area
 def get_customers_per_area(area_id):
     adr = str(area_id)
-    customers = Customer.objects.filter(address=adr)
+    customers = Customer.objects.filter(address=adr, role='1')
     return customers
+
+def get_collectors_per_area(area_id):
+    adr = str(area_id)
+    customers = Customer.objects.filter(address=adr, role='2')
+    return customers
+
+def get_requests_per_area(area_id):
+    adr = Area.objects.get(id = area_id)
+    collections = Collection.objects.filter(area=adr)
+    return collections
+
 
 # Dashboard View
 def dashboard_view(request):
@@ -99,7 +110,7 @@ def dashboard_view(request):
         area_data = {}
 
         area_name = area.name
-        area_requests = 1
+        area_requests = len (get_requests_per_area(area.id))
         customers_in_area = len (get_customers_per_area(area.id))
         progress = 0
         if customers_in_area != 0:
@@ -125,6 +136,10 @@ def dashboard_view(request):
         area_data_list.append(area_data)
     context['area_data'] = area_data_list
 
+    context['collectors'] = len(Customer.objects.filter(role='2'))
+    context['collections'] = len(Collection.objects.all())
+    context['customers'] = len(Customer.objects.filter(role='1'))
+
     return render(request, 'dashboard/admin.html', context)
 
 
@@ -132,7 +147,7 @@ def address_view(request):
     areas = Area.objects.all()
     area_data = []
     for area in areas:
-        customers_count = Customer.objects.filter(address=area.id).count()
+        customers_count = Customer.objects.filter(address=area.id, role='1').count()
         area_data.append({'area': area, 'customer_count': customers_count})
 
     return render(request, 'dashboard/address.html', {'area_data': area_data})
