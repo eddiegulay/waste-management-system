@@ -142,7 +142,7 @@ def dashboard_view(request):
 
     return render(request, 'dashboard/admin.html', context)
 
-
+# Area View
 def address_view(request):
     areas = Area.objects.all()
     area_data = []
@@ -152,6 +152,13 @@ def address_view(request):
 
     return render(request, 'dashboard/address.html', {'area_data': area_data})
     
+# Customer collections and payments view
+def collections_payments_view(request):
+    collections = Collection.objects.all()
+    payments = Payment.objects.all()
+
+    context = {'collections': collections, 'payments': payments}
+    return render(request, 'dashboard/collections_payments.html', context)
 
 # Customer View
 def customer_view(request):
@@ -198,8 +205,7 @@ def collector_view(request):
 
     context = {'customer_data': customer_data}
     return render(request, 'dashboard/collector.html', context)
-
-
+    
 # Producer Dashboard View
 def producer_dashboard_view(request):
     greetings = get_greeting() + request.user.first_name
@@ -219,7 +225,6 @@ def get_waste_collector(area_id):
     adr = str(area_id)
     collector = Customer.objects.filter(address=adr, role='2').order_by('id').first()
     return collector
-
 
 def request_pickup_view(request):
     customer = Customer.objects.get(user = request.user)
@@ -245,8 +250,10 @@ def request_pickup_view(request):
         )
         collection.save()
 
-        # substract 5000 from account balance
+        # subtract 5000 from account balance
         account.balance = account.balance - 5000
+        if account.request_count >=1:
+            account.request_count -= 1
         account.save()
 
         return redirect('/producer_dashboard')
@@ -254,7 +261,6 @@ def request_pickup_view(request):
 
     context = {'customer': customer, 'account': account}
     return render(request, 'dashboard/request.html', context)
-
 
 # make payment view
 def make_payment_view(request):
@@ -300,31 +306,16 @@ def make_payment_view(request):
 
     return render(request, 'dashboard/payment.html', context)
 
+# collector dashboard view
+def collector_dashboard_view(request):
+    greetings = get_greeting() + request.user.first_name
+    collections = Collection.objects.filter(waste_collector=request.user)
+    payments = Payment.objects.filter(waste_collector=request.user)
+    if len(collections) == 0:
+        collections = False
 
-def save_collection(request):
-    if request.method == 'POST':
-        waste_producer = request.user
-        waste_collector = get_waste_collector()
-        collection_date = request.POST.get('collection_date')
-        area = request.POST.get('area')
-        waste_type = request.POST.get('waste-type')
-        house_number = request.POST.get('hno')
-        bin_number = request.POST.get('bno')
+    if len(payments) == 0:
+        payments = False
 
-        collection = Collection(
-            waste_producer=waste_producer,
-            waste_collector=waste_collector,
-            collection_date=collection_date,
-            area=area,
-            waste_type=waste_type,
-            house_number=house_number,
-            bin_number=bin_number
-        )
-        collection.save()
-
-        # Optionally, you can redirect the user to a success page
-        return render(request, 'success.html')
-
-    return render(request, 'collection_form.html')
-
-
+    context = {'greetings': greetings, 'payments': payments, 'collections': collections}
+    return render(request, 'dashboard/collector_dashboard.html', context)
