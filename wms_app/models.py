@@ -51,7 +51,7 @@ class Payment(models.Model):
     payment_type = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
-        return f"Payment by {self.waste_producer.name} on {self.payment_date}"
+        return f"Payment by {self.waste_producer} on {self.payment_date}"
 
 class Account(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

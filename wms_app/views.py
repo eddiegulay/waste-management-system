@@ -74,7 +74,7 @@ def register_view(request):
         customer.save()
 
         # create account
-        account = Account(customer=customer)
+        account = Account(user=user)
         account.save()
 
         # Redirect to success page or home page
@@ -189,8 +189,11 @@ def collector_view(request):
 # Producer Dashboard View
 def producer_dashboard_view(request):
     greetings = get_greeting() + request.user.first_name
+    payments = Payment.objects.filter(waste_producer=request.user)
+    if len(payments) == 0:
+        payments = False
 
-    context = {'greetings': greetings}
+    context = {'greetings': greetings, 'payments': payments}
     return render(request, 'dashboard/producer.html', context)
 
 
@@ -214,7 +217,7 @@ def make_payment_view(request):
 
 
         payment = Payment(
-            waste_producer=customer,
+            waste_producer=request.user,
             payment_date=datetime.date.today(),
             amount=float(amount),
             status=False,
@@ -240,3 +243,7 @@ def make_payment_view(request):
 
 
     return render(request, 'dashboard/payment.html', context)
+
+
+
+

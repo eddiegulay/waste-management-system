@@ -110,10 +110,10 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Waste Type</th>
-                                                <th scope="col">Collector</th>
-                                                <th scope="col">Status</th>
+                                                <td scope="col">Date</td>
+                                                <td scope="col">Waste Type</td>
+                                                <td scope="col">Collector</td>
+                                                <td scope="col">Status</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -144,20 +144,49 @@
                                 <div class="card-body">
                                     <table class="table">
                                         <thead>
-                                            <tr>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col">Status</th>
+                                            <tr class="fw-light">
+                                                <td scope="col">Date</td>
+                                                <td scope="col">Amount</td>
+                                                <td scope="col">Phone Number</td>
+                                                <td scope="col">Subscription</td>
+                                                <td scope="col">Payment Method</td>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for payment in payments %}
-                                            <tr>
-                                                <td>{{payment.date}}</td>
-                                                <td>{{payment.amount}}</td>
-                                                <td>{{payment.status}}</td>
-                                            </tr>
-                                            {% endfor %}
+                                            
+                                            {% if payments %}
+                                                {% for payment in payments %}
+                                                <tr>
+                                                    <td>{{payment.payment_date}}</td>
+                                                    <td>{{payment.amount}}</td>
+                                                    <td>{{payment.phone_number}}</td>
+                                                    <td>
+                                                        
+                                                        {% if payment.payment_type is 1 %}
+                                                            Monthly
+                                                        {% else %}
+                                                            Per Request
+                                                        {% endif %}
+                                                            
+                                                    </td>
+                                                    <td> 
+                                                        {% if payment.payment_method is 1 %}
+                                                            Tigo Pesa
+                                                        {% elif payment.payment_method is 2 %}
+                                                            Airtel Money
+                                                        {% elif payment.payment_method is 3 %}
+                                                            M-pesa
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="5">No payment history</td>
+                                                </tr>
+                                            {% endif %}
+                                                
+                                            
                                         </tbody>
                                     </table>
                                 </div>
