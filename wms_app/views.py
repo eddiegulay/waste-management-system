@@ -201,10 +201,11 @@ def request_pickup_view(request):
     customer = Customer.objects.get(user = request.user)
     account = Account.objects.get(user = request.user)
 
-    context = {}
-    return render(request, 'dashboard/request.html', {})
+    context = {'customer': customer, 'account': account}
+    return render(request, 'dashboard/request.html', context)
 
 
+# make payment view
 def make_payment_view(request):
     customer = Customer.objects.get(user = request.user)
     account = Account.objects.get(user = request.user)

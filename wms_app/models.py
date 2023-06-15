@@ -30,16 +30,6 @@ class WasteCollector(models.Model):
         return self.user.user.fname
 
 
-# Collection model
-class Collection(models.Model):
-    waste_producer = models.ForeignKey(WasteProducer, on_delete=models.CASCADE)
-    waste_collector = models.ForeignKey(WasteCollector, on_delete=models.CASCADE)
-    collection_date = models.DateField()
-
-    def __str__(self):
-        return f"Collection for {self.waste_producer.name} by {self.waste_collector.name}"
-
-
 # models.py
 class Payment(models.Model):
     waste_producer = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -65,3 +55,16 @@ class Area(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# Collection model
+class Collection(models.Model):
+    waste_producer = models.ForeignKey(User, on_delete=models.CASCADE)
+    waste_collector = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    collection_date = models.DateField()
+    collection_status = models.BooleanField(default=False)
+    time_requested = models.DateTimeField(auto_now_add=True)
+    area = models.ForeignKey('Area', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Collection for {self.waste_producer} by {self.waste_collector}"
