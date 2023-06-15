@@ -24,22 +24,10 @@ class WasteProducer(models.Model):
 
 # WasteCollector model
 class WasteCollector(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    contact_number = models.CharField(max_length=20)
+    user = models.OneToOneField(Customer, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
-
-
-# FeesCollector model
-class FeesCollector(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    contact_number = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.name
+        return self.user.user.fname
 
 
 # Collection model
@@ -52,16 +40,24 @@ class Collection(models.Model):
         return f"Collection for {self.waste_producer.name} by {self.waste_collector.name}"
 
 
-# Payment model
+# models.py
 class Payment(models.Model):
-    waste_producer = models.ForeignKey(WasteProducer, on_delete=models.CASCADE)
-    fees_collector = models.ForeignKey(FeesCollector, on_delete=models.CASCADE)
+    waste_producer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     payment_date = models.DateField()
     amount = models.DecimalField(max_digits=8, decimal_places=2)
+    status = models.BooleanField(default=False)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    payment_method = models.CharField(max_length=20, blank=True, null=True)
+    payment_type = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
-        return f"Payment by {self.waste_producer.name} to {self.fees_collector.name}"
+        return f"Payment by {self.waste_producer.name} on {self.payment_date}"
 
+class Account(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    balance = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    request_count = models.IntegerField(default=0)
+    montly = models.BooleanField(default=False)
 
 # area model
 class Area(models.Model):

@@ -2,6 +2,18 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.db.models import Count
 from .models import *
+import datetime
+
+def get_greeting():
+    current_hour = datetime.datetime.now().hour
+
+    if 0 <= current_hour < 12:
+        return "Good morning "
+    elif 12 <= current_hour < 18:
+        return "Good afternoon "
+    else:
+        return "Good evening "
+
 
 # project landing page
 def landing_view(request):
@@ -61,6 +73,10 @@ def register_view(request):
         customer = Customer(user=user, role=role, address=address, contact_number=contact_number)
         customer.save()
 
+        # create account
+        account = Account(customer=customer)
+        account.save()
+
         # Redirect to success page or home page
         return redirect('/login') 
 
@@ -111,6 +127,7 @@ def dashboard_view(request):
     context['area_data'] = area_data_list
 
     return render(request, 'dashboard/admin.html', context)
+
 
 def address_view(request):
     areas = Area.objects.all()
@@ -171,4 +188,50 @@ def collector_view(request):
 
 # Producer Dashboard View
 def producer_dashboard_view(request):
-    return render(request, 'dashboard/producer.html', {})
+    greetings = get_greeting() + request.user.first_name
+
+    context = {'greetings': greetings}
+    return render(request, 'dashboard/producer.html', context)
+
+
+def request_pickup_view(request):
+    return render(request, 'dashboard/request.html', {})
+
+
+def make_payment_view(request):
+    customer = Customer.objects.get(user = request.user)
+    account = Account.objects.get(user = request.user)
+    context = {}
+
+    if request.method == 'POST':
+        phone_number = request.POST.get('phone_number')
+        amount = request.POST.get('amount')
+        payment_method = request.POST.get('payment_method')
+        payment_type = request.POST.get('payment_type')
+
+
+        payment = Payment(
+            waste_producer=customer,
+            payment_date=datetime.date.today(),
+            amount=amount,
+            status=False,
+            phone_number=phone_number,
+            payment_method=payment_method,
+            payment_type=payment_type
+        )
+        payment.save()
+
+        # add balance in account to associated customer
+        acc = Account.objects.get(user=request.user)
+        acc.balance += int(amount)
+        if int(payment_type) == 1:
+            acc.montly = True
+        else:
+            acc.montly = False
+        acc.save()
+
+        return redirect('/make_payments')
+
+
+
+    return render(request, 'dashboard/payment.html', context)

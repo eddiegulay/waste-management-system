@@ -1,0 +1,90 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %} My Dashboard{% endblock %}
+
+{% block body %}
+<body class="sb-nav-fixed">
+
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="index.html">My Dashboard</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/sign_out">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+
+        {% include "dashboard/producer_side_panel.html" %}
+
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+
+                    <div class="container my-4">
+                        <div class="bg-light border rounded border-0 border-light d-flex flex-column justify-content-between flex-lg-row p-4 p-md-5">
+                            <div class="pb-2 pb-lg-1">
+                                <h2 class="mb-2 fw-light" id="banner-title">Payment Reminders</h2>
+                                <p class="mb-0" id="banner-content">Stay on top of your subscription by receiving timely payment reminders. Never miss a payment and keep your waste management services uninterrupted.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>    
+                
+                <div class="container py-5">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-sm-12 col-md-8 col-lg-6">
+                            <div class="card">
+                                <h3 class="text-center my-4 fw-light">Quick Transaction</h3>
+                                <form class='p-3' method='POST'> {% csrf_token %}
+                                    <input type="text" class="form-control" placeholder="Phone Number">
+                                    <input type="text" class="form-control my-3" placeholder="Amount">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Select Payment Method</option>
+                                        <option value="1">Tigo Pesa</option>
+                                        <option value="2">Airtel Money</option>
+                                        <option value="3">Mpesa</option>
+                                    </select>
+
+                                    <select class="form-select my-3" aria-label="Default select example">
+                                        <option selected>Select Payment Type</option>
+                                        <option value="1">Monthly Subscription</option>
+                                        <option value="2">One Time Payment</option>
+                                    </select>
+
+                                    <button class="btn btn-success btn-sm form-control mt-4">Pay</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+
+            </main>
+            
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="{% static 'dashboard/js/scripts.js' %}"></script>
+</body>
+{% endblock body %}
+    
+
+    
