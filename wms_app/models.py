@@ -61,3 +61,11 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment by {self.waste_producer.name} to {self.fees_collector.name}"
+
+
+# area model
+class Area(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name

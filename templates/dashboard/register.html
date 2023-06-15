@@ -62,8 +62,11 @@
                                         <div class="form-floating mb-3">
                                             <select class="form-control" id="inputAddress" name="address">
                                                 <option value="0">  </option>
-                                                <option value="1">Ilala</option>
-                                                <option value="2">Mtaa Wa kongo</option>
+                                                
+                                                {% for area in areas %}
+                                                    <option value={{area.id}}>{{area.name}}</option>
+                                                {% endfor %}
+                                                    
                                             </select>
                                             <label for="inputAddress">Your Residense Address</label>
                                         </div>

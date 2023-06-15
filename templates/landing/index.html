@@ -29,7 +29,12 @@
             </div>
         </div>
     </nav>
-    <header class="masthead" style="background: linear-gradient(rgba(0,0,0,0.8) 98%, white 100%), url(&quot;assets/img/hero.jpg&quot;) no-repeat, var(--bs-black);background-size: auto, cover, auto;">
+    <header class="masthead" 
+            style="
+                background-image: url('{% static 'landing/assets/img/hero.jpg' %}');
+                background-repeat: none; 
+                background-size: auto, cover, auto;">
+                
         <div class="container">
             <div class="intro-text">
                 <div class="intro-lead-in"><span>Revolutionizing Waste Collection</span></div>
@@ -130,36 +135,7 @@
             </div>
         </div>
     </section>
-    <section id="contact" style="background-image: url('assets/img/map-image.png');">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <form id="contactForm" name="contactForm">
-                        <div class="row">
-                            <div class="w-100"></div>
-                            <div class="col-lg-12 text-center">
-                                <div id="success"></div><button class="btn btn-primary btn-xl text-uppercase" id="sendMessageButton" type="submit">Register to start</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4"><span class="copyright">waste management system © 2023</span></div>
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <ul class="list-inline quicklinks">
-                        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-                        <li class="list-inline-item"><a href="#">Terms of Use</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+    
     <div class="modal fade text-center portfolio-modal" role="dialog" tabindex="-1" id="portfolioModal1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">

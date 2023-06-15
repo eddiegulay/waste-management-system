@@ -1,0 +1,25 @@
+<div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                <div class="sb-sidenav-menu-heading">Core</div>
+                <a class="nav-link" href="/dashboard">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Overview
+                </a>
+
+                <div class="sb-sidenav-menu-heading">Manage</div>
+                <a class="nav-link" href="/addresses">Addresses</a>
+                <a class="nav-link" href="layout-sidenav-light.html">Collections & payments</a>
+                <a class="nav-link" href="/customers">Customers</a>
+                <a class="nav-link" href="/collector">Collectors</a>
+                
+                
+            </div>
+        </div>
+        <div class="sb-sidenav-footer">
+            <div class="small">Logged in as:</div>
+            {{request.user.first_name}}
+        </div>
+    </nav>
+</div>
