@@ -116,15 +116,24 @@
                                                 <td scope="col">Status</td>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            {% for collection in collections %}
-                                            <tr>
-                                                <td>{{collection.date}}</td>
-                                                <td>{{collection.waste_type}}</td>
-                                                <td>{{collection.collector}}</td>
-                                                <td>{{collection.status}}</td>
-                                            </tr>
-                                            {% endfor %}
+                                        <tbody class="fw-light">
+                                            
+                                            {% if collections %}
+                                                {% for collection in collections %}
+                                                <tr>
+                                                    <td>{{collection.time_requested}}</td>
+                                                    <td>{{collection.waste_type}}</td>
+                                                    <td>{{collection.waste_collector}}</td>
+                                                    <td>{%if collection.collection_status is True %}Complete{% else %}Pending {%endif%}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="4">No collection history</td>
+                                                </tr>
+                                            {% endif %}
+                                                
+                                            
                                         </tbody>
 
                                     </table>
