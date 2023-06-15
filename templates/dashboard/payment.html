@@ -55,16 +55,16 @@
                             <div class="card">
                                 <h3 class="text-center my-4 fw-light">Quick Transaction</h3>
                                 <form class='p-3' method='POST'> {% csrf_token %}
-                                    <input type="text" class="form-control" placeholder="Phone Number">
-                                    <input type="text" class="form-control my-3" placeholder="Amount">
-                                    <select class="form-select" aria-label="Default select example">
+                                    <input type="text" class="form-control" placeholder="Phone Number" name="phone_number" value="{{customer.contact_number}}">
+                                    <input type="text" class="form-control my-3" placeholder="Amount" name="amount">
+                                    <select class="form-select" aria-label="Default select example" name="payment_method">
                                         <option selected>Select Payment Method</option>
                                         <option value="1">Tigo Pesa</option>
                                         <option value="2">Airtel Money</option>
                                         <option value="3">Mpesa</option>
                                     </select>
 
-                                    <select class="form-select my-3" aria-label="Default select example">
+                                    <select class="form-select my-3" aria-label="Default select example" name="payment_type">
                                         <option selected>Select Payment Type</option>
                                         <option value="1">Monthly Subscription</option>
                                         <option value="2">One Time Payment</option>

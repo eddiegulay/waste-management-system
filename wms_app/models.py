@@ -42,7 +42,7 @@ class Collection(models.Model):
 
 # models.py
 class Payment(models.Model):
-    waste_producer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    waste_producer = models.ForeignKey(User, on_delete=models.CASCADE)
     payment_date = models.DateField()
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     status = models.BooleanField(default=False)

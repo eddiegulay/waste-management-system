@@ -201,7 +201,10 @@ def request_pickup_view(request):
 def make_payment_view(request):
     customer = Customer.objects.get(user = request.user)
     account = Account.objects.get(user = request.user)
-    context = {}
+    context = {
+        'customer': customer,
+        'account': account
+    }
 
     if request.method == 'POST':
         phone_number = request.POST.get('phone_number')
@@ -213,7 +216,7 @@ def make_payment_view(request):
         payment = Payment(
             waste_producer=customer,
             payment_date=datetime.date.today(),
-            amount=amount,
+            amount=float(amount),
             status=False,
             phone_number=phone_number,
             payment_method=payment_method,
@@ -228,6 +231,8 @@ def make_payment_view(request):
             acc.montly = True
         else:
             acc.montly = False
+            counts = int(acc.balance/5000)
+            acc.request_count = counts
         acc.save()
 
         return redirect('/make_payments')
