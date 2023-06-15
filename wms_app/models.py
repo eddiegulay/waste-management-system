@@ -9,7 +9,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=100)
     contact_number = models.CharField(max_length=20)
     def __str__(self):
-        return self.username
+        return self.user.first_name
 
     
 # WasteProducer model
@@ -60,11 +60,15 @@ class Area(models.Model):
 # Collection model
 class Collection(models.Model):
     waste_producer = models.ForeignKey(User, on_delete=models.CASCADE)
-    waste_collector = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    collection_date = models.DateField()
+    waste_collector = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
+    collection_date = models.DateField(blank=True, null=True)
     collection_status = models.BooleanField(default=False)
     time_requested = models.DateTimeField(auto_now_add=True)
     area = models.ForeignKey('Area', on_delete=models.CASCADE)
+    waste_type = models.CharField(max_length=20)
+    house_number = models.CharField(max_length=50)
+    bin_number = models.CharField(max_length=50)
 
     def __str__(self):
         return f"Collection for {self.waste_producer} by {self.waste_collector}"
+

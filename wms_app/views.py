@@ -14,7 +14,6 @@ def get_greeting():
     else:
         return "Good evening "
 
-
 # project landing page
 def landing_view(request):
     return render(request, 'landing/index.html', {})
@@ -190,16 +189,53 @@ def collector_view(request):
 def producer_dashboard_view(request):
     greetings = get_greeting() + request.user.first_name
     payments = Payment.objects.filter(waste_producer=request.user)
+    collections = Collection.objects.filter(waste_producer=request.user)
+    if len(collections) == 0:
+        collections = False
+
     if len(payments) == 0:
         payments = False
 
-    context = {'greetings': greetings, 'payments': payments}
+    context = {'greetings': greetings, 'payments': payments, 'collections': collections}
     return render(request, 'dashboard/producer.html', context)
+
+# function to get customers in an area
+def get_waste_collector(area_id):
+    adr = str(area_id)
+    collector = Customer.objects.filter(address=adr, role='2').order_by('id').first()
+    return collector
 
 
 def request_pickup_view(request):
     customer = Customer.objects.get(user = request.user)
     account = Account.objects.get(user = request.user)
+
+    if request.method == 'POST':
+        waste_producer = request.user
+        waste_collector = get_waste_collector(customer.address)
+        collection_date = None
+        area = Area.objects.get(id=customer.address)
+        waste_type = request.POST.get('waste-type')
+        house_number = request.POST.get('hno')
+        bin_number = request.POST.get('bno')
+
+        collection = Collection(
+            waste_producer=waste_producer,
+            waste_collector=waste_collector,
+            collection_date=collection_date,
+            area=area,
+            waste_type=waste_type,
+            house_number=house_number,
+            bin_number=bin_number
+        )
+        collection.save()
+
+        # substract 5000 from account balance
+        account.balance = account.balance - 5000
+        account.save()
+
+        return redirect('/producer_dashboard')
+
 
     context = {'customer': customer, 'account': account}
     return render(request, 'dashboard/request.html', context)
@@ -250,5 +286,30 @@ def make_payment_view(request):
     return render(request, 'dashboard/payment.html', context)
 
 
+def save_collection(request):
+    if request.method == 'POST':
+        waste_producer = request.user
+        waste_collector = get_waste_collector()
+        collection_date = request.POST.get('collection_date')
+        area = request.POST.get('area')
+        waste_type = request.POST.get('waste-type')
+        house_number = request.POST.get('hno')
+        bin_number = request.POST.get('bno')
+
+        collection = Collection(
+            waste_producer=waste_producer,
+            waste_collector=waste_collector,
+            collection_date=collection_date,
+            area=area,
+            waste_type=waste_type,
+            house_number=house_number,
+            bin_number=bin_number
+        )
+        collection.save()
+
+        # Optionally, you can redirect the user to a success page
+        return render(request, 'success.html')
+
+    return render(request, 'collection_form.html')
 
 

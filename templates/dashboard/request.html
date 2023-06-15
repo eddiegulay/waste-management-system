@@ -179,7 +179,7 @@
                         </div>
                         <div id="multistep-start-row" class="row">
                             <div id="multistep-start-column" class="col-12 col-lg-8 m-auto">
-                                <form id="main-form" class="multisteps-form__form">
+                                <form id="main-form" class="multisteps-form__form" method="POST"> {% csrf_token %}
                                     <div id="single-form-next" class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
                                         <h3 class="text-center multisteps-form__title">Basic Information</h3>
 
@@ -221,19 +221,31 @@
                                         data-animation="scaleIn">
                                         <div id="form-content-2" class="multisteps-form__content">
                                             
-                                            {% if account.montly is True %}
+                                            {% if account.balance < 5000 %}
                                                 <div id="input-grp-single-2" class="form-row mt-4">
-                                                    <h2 class="text-center fw-light">You are subscribed to a monthly plan</h2>
+                                                    <h3 class="text-center fw-light">Your Account balance is not enough to initiate a request</h3>
+                                                </div>
+                                                <div id="next-prev-buttons-1" class="button-row d-flex mt-4">
+                                                    <a href="/make_payments" class="btn btn btn-warning" title="add balance">Go to payments</a>
                                                 </div>
                                             {% else %}
-                                                <div id="input-grp-single-2" class="form-row mt-4">
-                                                    <h2 class="text-center fw-light">You have {{account.request_count}} requests left</h2>
+                                                {% if account.montly is True %}
+                                                    <div id="input-grp-single-2" class="form-row mt-4">
+                                                        <h2 class="text-center fw-light">You are subscribed to a monthly plan</h2>
+                                                    </div>
+                                                {% else %}
+                                                    <div id="input-grp-single-2" class="form-row mt-4">
+                                                        <h2 class="text-center fw-light">You have {{account.request_count}} requests left</h2>
+                                                    </div>
+                                                {% endif %}
+                                                <div id="next-prev-buttons-1" class="button-row d-flex mt-4">
+                                                    <button class="btn btn btn-primary js-btn-prev" type="submit" title="Prev">Place A request</button>
                                                 </div>
                                             {% endif %}
+                                                
+                                            
                     
-                                            <div id="next-prev-buttons-1" class="button-row d-flex mt-4">
-                                                <button class="btn btn btn-primary js-btn-prev" type="submit" title="Prev">Place A request</button>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </form>
