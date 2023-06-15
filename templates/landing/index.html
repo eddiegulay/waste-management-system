@@ -15,30 +15,28 @@
     <link rel="stylesheet" href="{% static 'landing/assets/fonts/font-awesome.min.css' %}">
 </head>
 
-<body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="54">
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark" id="mainNav">
-        <div class="container"><a class="navbar-brand" href="#page-top" style="font-family: Montserrat, sans-serif;"><span style="color: rgb(241, 238, 230);">WMS</span></a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container"><a class="navbar-brand" href="index.html" data-bs-target="/" style="font-family: ABeeZee, sans-serif;">wms</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto text-uppercase">
-                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">How it works</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html" data-bs-target="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html" data-bs-target="#about">How it works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html" data-bs-target="/register">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="post.html" data-bs-target="/login">Login</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <header class="masthead" 
-            style="
-                background-image: url('{% static 'landing/assets/img/hero.jpg' %}');
-                background-repeat: none; 
-                background-size: auto, cover, auto;">
-                
+    <header class="masthead" style="background: url('{% static 'landing/assets/img/hero.jpg' %}') center / cover no-repeat;">
+        <div class="overlay"></div>
         <div class="container">
-            <div class="intro-text">
-                <div class="intro-lead-in"><span>Revolutionizing Waste Collection</span></div>
-                <div class="intro-heading text-uppercase"><span style="font-family: Montserrat, sans-serif;font-size: 50px;">Waste Management System</span></div><a class="btn btn-primary btn-xl text-uppercase" role="button" href="#services">start</a>
+            <div class="row">
+                <div class="col-md-10 col-lg-8 mx-auto position-relative">
+                    <div class="site-heading">
+                        <h1 style="font-family: ABeeZee, sans-serif;">WMS</h1><span class="subheading">Revolutionizing Waste Collection</span>
+                    </div>
+                </div>
             </div>
         </div>
     </header>

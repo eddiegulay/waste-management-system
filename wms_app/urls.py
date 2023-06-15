@@ -10,4 +10,6 @@ urlpatterns = [
     path('addresses/', address_view, name='addresses'),
     path('customers/', customer_view, name='customers'),
     path('collector/', collector_view, name='collector'),
+    path('producer_dashboard', producer_dashboard_view, name='producer_dashboard'),
+    # path('collector_dashboard', collector_dashboard_view, name='collector_dashboard'),
 ]

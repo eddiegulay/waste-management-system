@@ -68,10 +68,49 @@ def register_view(request):
 
     return render(request, 'dashboard/register.html', {'areas': areas}) 
 
+# function to get customers in an area
+def get_customers_per_area(area_id):
+    adr = str(area_id)
+    customers = Customer.objects.filter(address=adr)
+    return customers
 
 # Dashboard View
 def dashboard_view(request):
-    return render(request, 'dashboard/admin.html')
+    context = {}
+    areas = Area.objects.all()
+    context['areas'] = areas
+    area_data_list = []
+    for area in areas:
+        area_data = {}
+
+        area_name = area.name
+        area_requests = 1
+        customers_in_area = len (get_customers_per_area(area.id))
+        progress = 0
+        if customers_in_area != 0:
+            progress = (area_requests/customers_in_area) * 100
+            progress = int(progress)
+        f_progress = f"{progress} %"
+
+        color = 'success'
+        if progress > 25 and progress <= 50:
+            color = 'info'
+        elif progress > 50 and progress <= 75:
+            color = 'warning'
+        elif progress > 75:
+            color = 'danger'
+
+        area_data['name'] = area_name
+        area_data['customers'] = customers_in_area
+        area_data['requests'] = area_requests
+        area_data['progress'] = f_progress
+        area_data['counter'] = progress
+        area_data['color'] = color
+
+        area_data_list.append(area_data)
+    context['area_data'] = area_data_list
+
+    return render(request, 'dashboard/admin.html', context)
 
 def address_view(request):
     areas = Area.objects.all()
@@ -128,3 +167,8 @@ def collector_view(request):
 
     context = {'customer_data': customer_data}
     return render(request, 'dashboard/collector.html', context)
+
+
+# Producer Dashboard View
+def producer_dashboard_view(request):
+    return render(request, 'dashboard/producer.html', {})
