@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Count
 from .models import *
 import datetime
+import urllib
 
 def get_greeting():
     current_hour = datetime.datetime.now().hour
@@ -323,3 +324,40 @@ def collector_dashboard_view(request):
 
     context = {'greetings': greetings, 'collections': collections, 'collection_count': collections_count, 'complete_collections': complete_collections, 'collector_area_name': collector_area_name}
     return render(request, 'dashboard/collector_dashboard.html', context)
+
+def get_google_maps_link(street_name):
+    street_query = urllib.parse.quote(street_name)
+    link = f"https://www.google.com/maps/search/?api=1&query={street_query}"
+    return link
+
+
+# process collection
+def process_request_view(request, id):
+    greetings = get_greeting() + request.user.first_name
+    collection = Collection.objects.get(id=id)
+    customer_id = collection.waste_producer.id
+    user = User.objects.get(id=customer_id)
+    customer = Customer.objects.get(user=user)
+    account = Account.objects.get(user=user)
+    collection_date = datetime.date.today()
+    collector_account = Account.objects.get(user=request.user)
+    customer_collector = Customer.objects.get(user=user)
+    all_collector_collections = Collection.objects.filter(waste_collector=customer_collector, collection_status=False)
+
+    area = Area.objects.get(id=customer.address)
+    map_link = get_google_maps_link(area.name)
+
+    if request.method == 'POST':
+        collection.collection_status = True
+        collection.collection_date = collection_date
+        collection.save()
+
+        # add 5000 to collector account balance
+        collector_account.balance = account.balance + 5000
+        collector_account.save()
+
+        return redirect('/collector_dashboard')
+
+    context = {'greetings': greetings, 'collection': collection, 'customer': customer, 'account': account, 'map_link': map_link, 'all_collector_collections': len(all_collector_collections)}
+
+    return render(request, 'dashboard/process_requests.html', context)

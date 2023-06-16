@@ -15,4 +15,5 @@ urlpatterns = [
     path('request/', request_pickup_view, name='request_pickup'),
     path('make_payments/', make_payment_view, name='payments'),
     path('collector_dashboard/', collector_dashboard_view, name='collector_dashboard'),
+    path('process_request/<int:id>/', process_request_view, name='process_request'),
 ]

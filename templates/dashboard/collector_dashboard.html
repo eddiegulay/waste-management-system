@@ -72,6 +72,7 @@
                                                 <td scope="col">Waste Type</td>
                                                 <td scope="col">Collector</td>
                                                 <td scope="col">Status</td>
+                                                <td scope="col">Action</td>
                                             </tr>
                                         </thead>
                                         <tbody class="fw-light">
@@ -83,6 +84,12 @@
                                                     <td>{{collection.waste_type}}</td>
                                                     <td>{{collection.waste_collector}}</td>
                                                     <td>{%if collection.collection_status is True %}Complete{% else %}Pending {%endif%}</td>
+                                                    <td>
+                                                        {% if collection.collection_status is True %}
+                                                            <a href="/process_request/{{collection.id}}" class="btn btn-sm btn-success">Complete</a>
+                                                        {% else %}
+                                                            <a href="/process_request/{{collection.id}}" class="btn btn-sm btn-primary">Complete</a>
+                                                        {% endif %}
                                                 </tr>
                                                 {% endfor %}
                                             {% else %}
