@@ -309,13 +309,17 @@ def make_payment_view(request):
 # collector dashboard view
 def collector_dashboard_view(request):
     greetings = get_greeting() + request.user.first_name
-    collections = Collection.objects.filter(waste_collector=request.user)
-    payments = Payment.objects.filter(waste_collector=request.user)
-    if len(collections) == 0:
+    collector = Customer.objects.get(user=request.user)
+    collections = Collection.objects.filter(waste_collector=collector, collection_status=False)
+    collections_count = len(collections)
+    if collections_count == 0:
         collections = False
+    complete_collections = Collection.objects.filter(waste_collector=collector, collection_status=True)
 
-    if len(payments) == 0:
-        payments = False
+    collector_area = Area.objects.get(id=collector.address)
+    collector_area_name = collector_area.name
+    
 
-    context = {'greetings': greetings, 'payments': payments, 'collections': collections}
+
+    context = {'greetings': greetings, 'collections': collections, 'collection_count': collections_count, 'complete_collections': complete_collections, 'collector_area_name': collector_area_name}
     return render(request, 'dashboard/collector_dashboard.html', context)

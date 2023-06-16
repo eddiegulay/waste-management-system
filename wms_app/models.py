@@ -56,7 +56,6 @@ class Area(models.Model):
     def __str__(self):
         return self.name
 
-
 # Collection model
 class Collection(models.Model):
     waste_producer = models.ForeignKey(User, on_delete=models.CASCADE)
