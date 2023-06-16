@@ -52,6 +52,7 @@ class Account(models.Model):
 # area model
 class Area(models.Model):
     name = models.CharField(max_length=100)
+    map_embed = models.CharField(max_length=9999, blank=True, null=True)
 
     def __str__(self):
         return self.name
