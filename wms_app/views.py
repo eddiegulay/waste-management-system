@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Count
 from .models import *
 import datetime
-import urllib
+import requests
 
 def get_greeting():
     current_hour = datetime.datetime.now().hour
@@ -325,10 +325,21 @@ def collector_dashboard_view(request):
     context = {'greetings': greetings, 'collections': collections, 'collection_count': collections_count, 'complete_collections': complete_collections, 'collector_area_name': collector_area_name}
     return render(request, 'dashboard/collector_dashboard.html', context)
 
-def get_google_maps_link(street_name):
-    street_query = urllib.parse.quote(street_name)
-    link = f"https://www.google.com/maps/search/?api=1&query={street_query}"
-    return link
+
+
+def get_coordinates(area_name):
+    geocoding_url = f"https://nominatim.openstreetmap.org/search?format=json&q={area_name}"
+    response = requests.get(geocoding_url)
+    data = response.json()
+
+    if data:
+        latitude = float(data[0]['lat'])
+        longitude = float(data[0]['lon'])
+        return latitude, longitude
+
+    return -6.7924,39.2083
+
+
 
 
 # process collection
@@ -345,7 +356,8 @@ def process_request_view(request, id):
     all_collector_collections = Collection.objects.filter(waste_collector=customer_collector, collection_status=False)
 
     area = Area.objects.get(id=customer.address)
-    map_link = get_google_maps_link(area.name)
+    
+
 
     if request.method == 'POST':
         collection.collection_status = True
@@ -358,6 +370,6 @@ def process_request_view(request, id):
 
         return redirect('/collector_dashboard')
 
-    context = {'greetings': greetings, 'collection': collection, 'customer': customer, 'account': account, 'map_link': map_link, 'all_collector_collections': len(all_collector_collections)}
+    context = {'greetings': greetings, 'collection': collection, 'customer': customer, 'account': account, 'map_link': '', 'all_collector_collections': len(all_collector_collections), 'area': area}
 
     return render(request, 'dashboard/process_requests.html', context)

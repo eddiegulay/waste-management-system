@@ -43,12 +43,77 @@
                             <div class="pb-2 pb-lg-1">
                                 <h3 class="mb-2 fw-light" id="banner-title">{{greetings}}</h3>
                                 <p class="mb-0" id="banner-content">
-                                    You have <span class="fw-bold rounded btn btn-sm text-primary">{{collection_count}}</span> collection request(s) left at {{collector_area_name}}
+                                    You have <span class="fw-bold rounded btn btn-sm text-primary">{{all_collector_collections}}</span> collection request(s) left at {{area.name}}
                                 </p>
                             </div>
                         </div>
                     </div>
                       
+                </div>
+
+                <div class="container-fluid px-4">
+                    <div class="container my-4">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.5663636587215!2d39.27182327513445!3d-6.822474793175275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185c4ba945bdf433%3A0x8ed4ba5fd1ed38f7!2sCongo%20St%2C%20Dar%20es%20Salaam!5e0!3m2!1sen!2stz!4v1686875623796!5m2!1sen!2stz" 
+                                style="min-width:320px; min-height=320px; border:0;" width="100%" height="100%" class="rounded"  
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>                            
+                            </div>
+                            <div class="col-sm-12 col-lg-6">
+                                <div>
+                                    <h4 class="mb-2 fw-light" id="banner-title">Collection Request</h4>
+                                    <!-- a table with collection details-->
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="col">Request ID</th>
+                                                <td scope="row">{{collection.id}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col">Request Date</th>
+                                                <td>{{collection.time_requested}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <h4 class="mb-2 fw-light" id="banner-title">Requester Details</h4>
+                                    <!-- a table with requester details-->
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <td scope="row">{{customer.user.first_name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col">Phone Number</th>
+                                                <td>{{customer.contact_number}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col">House Number</th>
+                                                <td>{{collection.house_number}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid px-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <form  method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success col-12">Complete</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
                 
