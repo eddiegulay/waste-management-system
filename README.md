@@ -72,7 +72,7 @@ Once logged in, users and collectors can perform various actions based on their 
 
 ## Contributing
 
-Contributions to the Waste Management System project are welcome! If you have any ideas, suggestions, or bug reports, please open an issue on the project's GitHub repository.
+Contributions to the Waste Management System project are welcome! provided that you've been granted with access!!. If you have any ideas, suggestions, or bug reports, please open an issue on the project's GitHub repository.
 
 ## License
 
